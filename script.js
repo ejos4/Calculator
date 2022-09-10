@@ -71,6 +71,8 @@ class OperationManager {
         let value = parseFloat(this.currentValueElt.innerText);
         let result = parseFloat(this.currentResultElt.innerText);
 
+        if (isNaN(value)) return;
+
         switch(this.operation.innerText){
             case '+':
                 result += value;
@@ -89,8 +91,7 @@ class OperationManager {
                 break;
             
             default:
-                this.eraseAll();
-                alert("Erreur lors de la saisie.")
+                result = value;
                 break;
         }
 
@@ -99,8 +100,10 @@ class OperationManager {
     }
 
     makeResult(){
-        this.doOperation();
-        this.operation.innerText = "";
+        if(this.currentValueElt.innerText.length !== 0) {
+            this.doOperation();
+            this.operation.innerText = "";
+        }
 
     }
 
@@ -122,6 +125,7 @@ class OperationManager {
                 break;
 
             case actionType.Operation:
+                this.makeResult();
                 this.setOperation(value);
                 break;
 
